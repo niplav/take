@@ -1,0 +1,8 @@
+#!/usr/bin/env rc
+
+raw=`{date --iso-8601}^'_'^$1^'.wav'
+comp=`{date --iso-8601}^'_'^$1^'.flac'
+
+fn sigint {ffmpeg -i $raw -f flac $comp; rm $raw; exit}
+
+arecord -D hw:1,0 -c 1 -i -r 48000 -f S16_LE >$raw
